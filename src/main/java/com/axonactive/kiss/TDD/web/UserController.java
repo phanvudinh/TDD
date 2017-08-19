@@ -28,6 +28,17 @@ public class UserController {
         return new ResponseEntity<List<User>>(userService.getAllUser(), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) throws NotFoundException {
+        logger.info("User id to return " + id);
+
+        User user = userService.getUserById(id);
+        if (user == null){
+            throw new NotFoundException("User doesn´t exist");
+        }
+        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Response> removeUserById(@PathVariable("id") long id) throws NotFoundException {
         logger.info("User id to remove " + id);
