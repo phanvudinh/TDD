@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -44,7 +43,38 @@ public class UserControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.get("/user").accept(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$", hasSize(4))).andExpect(status().is2xxSuccessful()).andDo(print());
 	}
-    
+
+    @Test
+    public void verifyUserById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/3").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.username").exists())
+                .andExpect(jsonPath("$.address").exists())
+                .andExpect(jsonPath("$.id").value(3))
+                .andExpect(jsonPath("$.username").value("Thai Thi Hong"))
+                .andExpect(jsonPath("$.address").value("Do Luong - Nghe An"))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(print());
+    }
+
+    @Test
+    public void verifyInvalidUserArgument() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/f").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.message").value("The request could not be understood by the server due to malformed syntax."))
+                .andDo(print());
+    }
+
+    @Test
+    public void verifyNullUser() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/6").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value("User doesn´t exist"))
+                .andDo(print());
+    }
+
 	@Test
 	public void verifyDeleteUser() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.delete("/user/4").accept(MediaType.APPLICATION_JSON))
