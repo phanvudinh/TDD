@@ -1,9 +1,11 @@
 package com.axonactive.kiss.TDD.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -13,6 +15,10 @@ public class User {
     private long id;
     private String username;
     private String address;
+
+    @OneToMany(targetEntity = Book.class, mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Book> books;
 
     public User() {
         super();
@@ -55,5 +61,13 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }
