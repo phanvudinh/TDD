@@ -18,6 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,6 +57,14 @@ public class UserControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print());
     }
+
+	@Test
+	public void getUserRankA() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/user/1/rank").accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("A"))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(print());
+	}
 
     @Test
     public void verifyInvalidUserArgument() throws Exception {

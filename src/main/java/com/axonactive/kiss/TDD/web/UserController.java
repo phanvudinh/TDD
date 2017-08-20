@@ -71,4 +71,9 @@ public class UserController {
         return new ResponseEntity<User>(userService.saveUser(userInfo), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/user/{id}/rank", method = RequestMethod.GET)
+    public ResponseEntity<String> updateUser(@PathVariable long id) throws NotFoundException {
+        return new ResponseEntity<String>(userService.getUserRank(id), HttpStatus.OK);
+    }
+
 }
