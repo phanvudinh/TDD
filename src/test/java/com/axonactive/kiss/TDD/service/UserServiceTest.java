@@ -84,7 +84,7 @@ public class UserServiceTest {
     @Test
     public void userRankB(){
         long userId = 1L;
-        when(bookRepository.countByUserId(userId)).thenReturn(35);
+        when(bookRepository.countByUserId(userId)).thenReturn(25);
         String rank = userService.getUserRank(userId);
         assertEquals("B", rank);
     }
