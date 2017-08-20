@@ -16,7 +16,7 @@ public class User {
     private String username;
     private String address;
 
-    @OneToMany(targetEntity = Book.class, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Book.class, mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Book> books;
 
