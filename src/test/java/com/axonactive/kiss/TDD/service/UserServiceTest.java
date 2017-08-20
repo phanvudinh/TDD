@@ -1,6 +1,7 @@
 package com.axonactive.kiss.TDD.service;
 
 import com.axonactive.kiss.TDD.model.User;
+import com.axonactive.kiss.TDD.repository.BookRepository;
 import com.axonactive.kiss.TDD.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,9 @@ public class UserServiceTest {
 	
 	@Mock
 	private UserRepository userRepository;
+
+	@Mock
+	private BookRepository bookRepository;
 	
 	@InjectMocks
 	private UserServiceImpl userService;
@@ -68,5 +72,45 @@ public class UserServiceTest {
 		userService.removeUser(user);
         verify(userRepository, times(1)).delete(user);
 	}
+
+	@Test
+	public void userRankA(){
+		long userId = 1L;
+		when(bookRepository.countByUserId(userId)).thenReturn(40);
+		String rank = userService.getUserRank(userId);
+		assertEquals("A", rank);
+	}
+
+    @Test
+    public void userRankB(){
+        long userId = 1L;
+        when(bookRepository.countByUserId(userId)).thenReturn(35);
+        String rank = userService.getUserRank(userId);
+        assertEquals("B", rank);
+    }
+
+    @Test
+    public void userRankC(){
+        long userId = 1L;
+        when(bookRepository.countByUserId(userId)).thenReturn(17);
+        String rank = userService.getUserRank(userId);
+        assertEquals("C", rank);
+    }
+
+    @Test
+    public void userRankD(){
+        long userId = 1L;
+        when(bookRepository.countByUserId(userId)).thenReturn(5);
+        String rank = userService.getUserRank(userId);
+        assertEquals("D", rank);
+    }
+
+    @Test
+    public void userNonRank(){
+        long userId = 1L;
+        when(bookRepository.countByUserId(userId)).thenReturn(0);
+        String rank = userService.getUserRank(userId);
+        assertEquals("NON", rank);
+    }
 }
 
