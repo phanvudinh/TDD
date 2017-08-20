@@ -43,6 +43,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUserRank(long id) {
         String rank="";
+        int numberOfBooks = bookRepository.countByUserId(id);
+
+        if(numberOfBooks == 0){
+             rank = "NON";
+        }else if(numberOfBooks < 10){
+            rank = "D";
+        }else if(numberOfBooks < 20){
+            rank = "C";
+        }else if(numberOfBooks < 30){
+            rank = "B";
+        }else{
+            rank = "A";
+        }
+
         return rank;
     }
 }
