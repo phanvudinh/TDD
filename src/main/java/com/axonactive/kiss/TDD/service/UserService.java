@@ -9,4 +9,5 @@ public interface UserService {
     public User getUserById(long id);
     public User saveUser(User user);
     public void removeUser(User user);
+    public String getUserRank(long id);
 }

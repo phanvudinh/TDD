@@ -40,4 +40,9 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public String getUserRank(long id) {
+        String rank="";
+        return rank;
+    }
 }
