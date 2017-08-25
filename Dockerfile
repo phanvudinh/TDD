@@ -1,11 +1,11 @@
-########################################################
-# Dockerfile to demonstrate the behaviour of CMD
-########################################################
-# Build from base image busybox:latest
-FROM busybox:latest
-# Author: Phan Vu Dinh
-MAINTAINER Phan Vu Dinh <itphanvudinh@gmail.com>
-# Set command for CMD
-CMD ["echo", "Dockerfile CMD"]
+FROM maven
+
+MAINTAINER Phan Vu Dinh (itphanvudinh@gmail.com)
+
+COPY . /tmp/workspace
+
+EXPOSE 8080
+
+CMD cd /tmp/workspace && mvn clean && mvn install && java -jar target/TDD-0.0.1-SNAPSHOT.jar
 
 
